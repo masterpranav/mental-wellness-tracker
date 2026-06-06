@@ -2,6 +2,9 @@
 
 import { useEffect, useMemo, useState } from "react";
 
+import MoodSelector from "@/components/MoodSelector";
+import FeedbackForm from "@/components/FeedbackForm";
+
 type Entry = {
   date: string;
   mood: number;
@@ -20,6 +23,7 @@ export default function Home() {
   const [focus, setFocus] = useState(5);
   const [energy, setEnergy] = useState(5);
 
+  const [exam, setExam] = useState("JEE");
   const [entries, setEntries] = useState<Entry[]>([]);
 
   useEffect(() => {
@@ -47,6 +51,8 @@ export default function Home() {
       STORAGE_KEY,
       JSON.stringify(updated)
     );
+
+    alert("Check-in saved successfully.");
   };
 
   const averages = useMemo(() => {
@@ -92,15 +98,14 @@ export default function Home() {
         maxWidth: "1000px",
         margin: "0 auto",
         padding: "24px",
-        fontFamily: "Arial",
       }}
     >
       <header>
         <h1>🧠 MindMate AI</h1>
 
         <p>
-          AI-powered mental wellness tracker
-          for competitive exam students.
+          Mental Wellness Companion for
+          Competitive Exam Aspirants
         </p>
       </header>
 
@@ -109,11 +114,11 @@ export default function Home() {
         style={{
           display: "flex",
           gap: "10px",
-          marginBottom: "20px",
+          flexWrap: "wrap",
+          marginBottom: "24px",
         }}
       >
         <button
-          aria-label="Open Dashboard"
           onClick={() =>
             setTab("dashboard")
           }
@@ -122,7 +127,6 @@ export default function Home() {
         </button>
 
         <button
-          aria-label="Open Trends"
           onClick={() =>
             setTab("trends")
           }
@@ -131,7 +135,14 @@ export default function Home() {
         </button>
 
         <button
-          aria-label="Open Contact Page"
+          onClick={() =>
+            setTab("feedback")
+          }
+        >
+          Feedback
+        </button>
+
+        <button
           onClick={() =>
             setTab("contact")
           }
@@ -142,102 +153,99 @@ export default function Home() {
 
       {tab === "dashboard" && (
         <section>
-          <h2>Daily Wellness Check-In</h2>
+          <h2>Daily Check-In</h2>
 
-          <div>
-            <label htmlFor="mood-slider">
-              Mood Level: {mood}
-            </label>
-
-            <br />
-
-            <input
-              id="mood-slider"
-              aria-label="Mood Level"
-              type="range"
-              min="1"
-              max="10"
-              value={mood}
-              onChange={(e) =>
-                setMood(
-                  Number(e.target.value)
-                )
-              }
-            />
-          </div>
+          <label htmlFor="exam">
+            Exam Preparation
+          </label>
 
           <br />
 
-          <div>
-            <label htmlFor="stress-slider">
-              Stress Level: {stress}
-            </label>
+          <select
+            id="exam"
+            value={exam}
+            onChange={(e) =>
+              setExam(e.target.value)
+            }
+          >
+            <option>JEE</option>
+            <option>NEET</option>
+            <option>UPSC</option>
+            <option>CAT</option>
+            <option>GATE</option>
+          </select>
 
-            <br />
+          <br />
+          <br />
 
-            <input
-              id="stress-slider"
-              aria-label="Stress Level"
-              type="range"
-              min="1"
-              max="10"
-              value={stress}
-              onChange={(e) =>
-                setStress(
-                  Number(e.target.value)
-                )
-              }
-            />
-          </div>
+          <MoodSelector
+            selected={mood}
+            onSelect={setMood}
+          />
 
           <br />
 
-          <div>
-            <label htmlFor="focus-slider">
-              Focus Level: {focus}
-            </label>
+          <label htmlFor="stress">
+            Stress Level: {stress}
+          </label>
 
-            <br />
-
-            <input
-              id="focus-slider"
-              aria-label="Focus Level"
-              type="range"
-              min="1"
-              max="10"
-              value={focus}
-              onChange={(e) =>
-                setFocus(
-                  Number(e.target.value)
-                )
-              }
-            />
-          </div>
+          <input
+            id="stress"
+            aria-label="Stress Level"
+            type="range"
+            min="1"
+            max="10"
+            value={stress}
+            onChange={(e) =>
+              setStress(
+                Number(e.target.value)
+              )
+            }
+          />
 
           <br />
+          <br />
 
-          <div>
-            <label htmlFor="energy-slider">
-              Energy Level: {energy}
-            </label>
+          <label htmlFor="focus">
+            Focus Level: {focus}
+          </label>
 
-            <br />
+          <input
+            id="focus"
+            aria-label="Focus Level"
+            type="range"
+            min="1"
+            max="10"
+            value={focus}
+            onChange={(e) =>
+              setFocus(
+                Number(e.target.value)
+              )
+            }
+          />
 
-            <input
-              id="energy-slider"
-              aria-label="Energy Level"
-              type="range"
-              min="1"
-              max="10"
-              value={energy}
-              onChange={(e) =>
-                setEnergy(
-                  Number(e.target.value)
-                )
-              }
-            />
-          </div>
+          <br />
+          <br />
 
+          <label htmlFor="energy">
+            Energy Level: {energy}
+          </label>
+
+          <input
+            id="energy"
+            aria-label="Energy Level"
+            type="range"
+            min="1"
+            max="10"
+            value={energy}
+            onChange={(e) =>
+              setEnergy(
+                Number(e.target.value)
+              )
+            }
+          />
+
+          <br />
           <br />
 
           <button
@@ -247,46 +255,39 @@ export default function Home() {
             Save Check-In
           </button>
 
-          <section
-            aria-labelledby="analytics-heading"
-            style={{
-              marginTop: "30px",
-            }}
-          >
-            <h2 id="analytics-heading">
-              Analytics
-            </h2>
+          <hr />
 
-            {!averages && (
+          <h2>Analytics</h2>
+
+          {!averages && (
+            <p>
+              No analytics available yet.
+            </p>
+          )}
+
+          {averages && (
+            <>
               <p>
-                No analytics available yet.
+                Average Mood:{" "}
+                {averages.mood}
               </p>
-            )}
 
-            {averages && (
-              <>
-                <p>
-                  Average Mood:{" "}
-                  {averages.mood}
-                </p>
+              <p>
+                Average Stress:{" "}
+                {averages.stress}
+              </p>
 
-                <p>
-                  Average Stress:{" "}
-                  {averages.stress}
-                </p>
+              <p>
+                Average Focus:{" "}
+                {averages.focus}
+              </p>
 
-                <p>
-                  Average Focus:{" "}
-                  {averages.focus}
-                </p>
-
-                <p>
-                  Average Energy:{" "}
-                  {averages.energy}
-                </p>
-              </>
-            )}
-          </section>
+              <p>
+                Average Energy:{" "}
+                {averages.energy}
+              </p>
+            </>
+          )}
         </section>
       )}
 
@@ -296,7 +297,7 @@ export default function Home() {
 
           {entries.length === 0 && (
             <p>
-              No historical data available.
+              No trend data available.
             </p>
           )}
 
@@ -338,30 +339,45 @@ export default function Home() {
         </section>
       )}
 
+      {tab === "feedback" && (
+        <FeedbackForm />
+      )}
+
       {tab === "contact" && (
         <section>
-          <h2>Contact Us</h2>
+          <h2>
+            Consultation Request
+          </h2>
 
-          <p>
-            Need mental wellness
-            consultation?
-          </p>
+          <form>
+            <input
+              type="text"
+              placeholder="Your Name"
+            />
 
-          <p>
-            Phone:
-            +91-XXXXXXXXXX
-          </p>
+            <br />
+            <br />
 
-          <p>
-            Email:
-            help@mindmate.ai
-          </p>
+            <input
+              type="email"
+              placeholder="Email Address"
+            />
 
-          <p>
-            Availability:
-            Monday-Friday,
-            9:00 AM - 6:00 PM
-          </p>
+            <br />
+            <br />
+
+            <textarea
+              rows={5}
+              placeholder="Describe your concern"
+            />
+
+            <br />
+            <br />
+
+            <button type="submit">
+              Request Consultation
+            </button>
+          </form>
         </section>
       )}
     </main>
