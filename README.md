@@ -1,2 +1,2 @@
-# mental-wellness-tracker
-Mental wellness during IIT JEE exams
+# Mental Wellness Tracker
+Production-ready monorepo.
