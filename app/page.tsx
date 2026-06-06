@@ -2,8 +2,8 @@
 
 import { useEffect, useMemo, useState } from "react";
 
-import MoodSelector from "@/components/MoodSelector";
-import FeedbackForm from "@/components/FeedbackForm";
+import MoodSelector from "../components/MoodSelector";
+import FeedbackForm from "../components/FeedbackForm";
 
 type Entry = {
   date: string;
