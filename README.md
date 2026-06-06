@@ -1,2 +1,4 @@
-# Mental Wellness Tracker
-Production-ready monorepo.
+# MindMate AI
+
+Set GEMINI_API_KEY in Vercel.
+Deploy directly from GitHub to Vercel.

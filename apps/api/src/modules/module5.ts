@@ -1,1 +1,0 @@
-export const module5 = 'module5';

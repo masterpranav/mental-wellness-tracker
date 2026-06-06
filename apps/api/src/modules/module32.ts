@@ -1,1 +1,0 @@
-export const module32 = 'module32';
