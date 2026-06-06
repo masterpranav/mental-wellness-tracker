@@ -1,0 +1,9 @@
+{
+  "name": "api",
+  "dependencies": {
+    "@nestjs/common": "latest",
+    "@nestjs/core": "latest",
+    "@google/generative-ai": "latest",
+    "@prisma/client": "latest"
+  }
+}
